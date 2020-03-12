@@ -2,7 +2,7 @@ const request = require('request');
 
 
 
-const backslash = (req, res) => {
+const root = (req, res) => {
     res.json({
         message: "root"
     });
@@ -17,12 +17,33 @@ const cheap = async (req, res) => {
             });
         }
         let data = JSON.parse(body);
-        res.send(data);
+        res.send(data.data);
     });
 }
 
 const calendar = async(req, res) => {
-  
+    await request(`${process.env.V1_CALENDAR_URL}?depart_date=${req.query.depart_date}&origin=${req.query.origin}&destination=${req.query.destination}&
+    calendar_type=${req.query.calendar_type}&token=${process.env.TOKEN}`, (error, response, body) => {
+        if(error){
+            res.json({
+                message: error
+            });
+        }
+        let data = JSON.parse(body);
+        res.send(data.data);
+    });
+}
+
+const allCountries = async (req, res) => {
+    await request(`${process.env.COUNTRIES_URL}`, (error, response, body) => {
+        if(error){
+            res.json({
+                message: error
+            });
+        }
+        let data = JSON.parse(body);
+        res.send(data);
+    });
 }
 
 const allAirlines = async(req, res) => {
@@ -32,15 +53,30 @@ const allAirlines = async(req, res) => {
                 message: error
             })
         }
-        let data = JSON.parse(body);
-        res.send(data);
+        res.send(body);
     });
 }
 
+const allCities = async(req, res) => {
+    await request(`${process.env.CITIES_URL}`, (error, response, body) => {
+        if(error){
+            res.json({
+                message: error
+            });
+        }
+        let data = JSON.parse(body);
+        res.send(data);
+    })
+}
+
+
+
 module.exports = {
-    backslash,
+    backslash: root,
     cheap,
     calendar,
-    allAirlines
+    allAirlines,
+    allCities,
+    allCountries
 }
 

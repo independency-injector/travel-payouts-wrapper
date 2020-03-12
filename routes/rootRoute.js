@@ -7,5 +7,7 @@ router.get('/', asyncMiddleware(controller.backslash));
 router.get('/cheapest', asyncMiddleware(controller.cheap));
 router.get('/calendar', asyncMiddleware(controller.calendar));
 router.get('/airlines', asyncMiddleware(controller.allAirlines));
+router.get('/cities', asyncMiddleware(controller.allCities));
+router.get('/countries', asyncMiddleware(controller.allCountries));
 
 module.exports = router;
