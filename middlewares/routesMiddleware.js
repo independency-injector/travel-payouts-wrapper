@@ -1,5 +1,5 @@
 const notFound = (req, res, next) => {
-    const error = new Error(`Cannot find a ${req.method}-method for ${req.originalUrl} path!`)
+    const error = new Error(`Cannot find ${req.originalUrl} path!`)
     res.status(404);
     next(error);
 }

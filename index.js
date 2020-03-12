@@ -12,9 +12,9 @@ app.listen(3000, () => {
 /*
 TODO:
 
-[] - setup routing arch
+[x] - setup routing arch
 [] - DB setup
-[] - err middles
+[x] - err middles
 [] -
 
 ...

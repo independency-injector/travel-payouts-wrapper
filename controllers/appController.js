@@ -17,7 +17,11 @@ const cheap = async (req, res) => {
             });
         }
         let data = JSON.parse(body);
-        res.send(data.data);
+        if(!body.success)
+            res.status(404).json({
+                message: "Not found"
+            });
+        res.send(data);
     });
 }
 
@@ -30,7 +34,11 @@ const calendar = async(req, res) => {
             });
         }
         let data = JSON.parse(body);
-        res.send(data.data);
+        if(!body.success)
+        res.status(404).json({
+            message: "Not found"
+        });
+        res.send(data);
     });
 }
 
@@ -42,6 +50,10 @@ const allCountries = async (req, res) => {
             });
         }
         let data = JSON.parse(body);
+        if(!body.success)
+        res.status(404).json({
+            message: "Not found"
+        });
         res.send(data);
     });
 }
