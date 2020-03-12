@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const app = express();
 
-require('.//startup/router')(app);
+require('./startup/router')(app);
 
 
 app.listen(3000, () => {
