@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "10ec96eb-7be1-406b-a6e4-cd92c00ab8e8",
+		"name": "aviasales",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/citie"
+			},
+			"response": []
+		},
+		{
+			"name": "get all countries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/countries"
+			},
+			"response": []
+		},
+		{
+			"name": "get all airlines",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/airlines"
+			},
+			"response": []
+		},
+		{
+			"name": "get cheapest flights",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/cheap?origin=IEV&destination=MOW&depart-date=2020-05-10&return-date=2020-05-12&page&currency=USD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cheap"
+					],
+					"query": [
+						{
+							"key": "origin",
+							"value": "IEV",
+							"description": "IATA code"
+						},
+						{
+							"key": "destination",
+							"value": "MOW",
+							"description": "IATA code"
+						},
+						{
+							"key": "depart-date",
+							"value": "2020-05-10",
+							"description": "yyyy-mm || yyyy-mm-dd"
+						},
+						{
+							"key": "return-date",
+							"value": "2020-05-12",
+							"description": "yyyy-mm || yyyy-mm-dd"
+						},
+						{
+							"key": "page",
+							"value": null,
+							"description": "pagination for big data"
+						},
+						{
+							"key": "currency",
+							"value": "USD",
+							"description": "(optional)"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get the \"calendar\" endpoint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/calendar?origin=IEV&destination=MOW&departure_date=2020-05-12&return-date=2020-05-13&calendar-type=departure_date&length&currency=USD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"calendar"
+					],
+					"query": [
+						{
+							"key": "origin",
+							"value": "IEV",
+							"description": "IATA-code"
+						},
+						{
+							"key": "destination",
+							"value": "MOW",
+							"description": "IATA-code"
+						},
+						{
+							"key": "departure_date",
+							"value": "2020-05-12",
+							"description": "yyyy-mm-dd || yyyy-mm"
+						},
+						{
+							"key": "return-date",
+							"value": "2020-05-13",
+							"description": "yyyy-mm-dd || yyyy-mm (optional)"
+						},
+						{
+							"key": "calendar-type",
+							"value": "departure_date",
+							"description": "= departure_date || return_date"
+						},
+						{
+							"key": "length",
+							"value": "",
+							"description": "stop duration (optional)"
+						},
+						{
+							"key": "currency",
+							"value": "USD",
+							"description": "(optional)"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

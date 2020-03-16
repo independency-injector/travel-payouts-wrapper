@@ -4,7 +4,7 @@ const controller = require('../controllers/appController');
 const router = express.Router();
 
 router.get('/', asyncMiddleware(controller.backslash));
-router.get('/cheapest', asyncMiddleware(controller.cheap));
+router.get('/cheap', asyncMiddleware(controller.cheap));
 router.get('/calendar', asyncMiddleware(controller.calendar));
 router.get('/airlines', asyncMiddleware(controller.allAirlines));
 router.get('/cities', asyncMiddleware(controller.allCities));
