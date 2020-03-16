@@ -17,11 +17,7 @@ const cheap = async (req, res) => {
             });
         }
         let data = JSON.parse(body);
-        if(!body.success)
-            res.status(404).json({
-                message: "Not found"
-            });
-        res.send(data);
+        res.json(data);
     });
 }
 
