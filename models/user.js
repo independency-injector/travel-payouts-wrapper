@@ -40,9 +40,6 @@ function validateUser(user) {
 }
 
 
-
-const User = new Sequelize.define("user", userSchema);
-
-exports.User = User;
-exports.generateToken = generateToken;
-exports.validateUser = validateUser;
+module.exports = User;
+module.exports = generateToken;
+module.exports = validateUser;

@@ -1,7 +1,14 @@
 const Sequelize = require('sequelize');
-require('dotenv').config();
+const User = require('../models/user');
+module.exports = () => {
+const sequelize = new Sequelize(`${process.env.DB_NAME}`,`${process.env.DB_USER}`,`${process.env.DB_PASSWORD}`, {
+    host: "localhost",
+    dialect: "postgres"
+});
 
-const sequelize = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER}`, `${process.env.DB_PASSWORD}`, {
-    dialect: "postgres",
-    host: "127.0.0.1"
-}); 
+try {
+ sequelize.authenticate();
+ console.log('Connected to DB!');
+} catch(err){
+    console.log('An error occured while connecting to DB:' + err);
+}}

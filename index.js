@@ -1,26 +1,11 @@
 const express = require('express');
-require('dotenv').config();
 const app = express();
-
+require('dotenv').config();
 require('./startup/logging')();
 require('./startup/router')(app);
-
+require('./startup/db')();
 
 app.listen(3000, () => {
     console.log("rabotaem.");
 });
 
-/*
-TODO:
-
-[x] - setup routing arch
-[] - DB setup
-[x] - err middles
-[] -
-
-...
-
-[] - delete TODO section
-
-
-*/

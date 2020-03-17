@@ -1,12 +1,7 @@
-require('dotenv').config(); //detele this
 const Sequelize = require('sequelize');
 const joi = require('joi');
-const sequelize = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER}`, `${process.env.DB_PASSWORD}`, {
-    dialect: "postgres",
-    host: "127.0.0.1"
-}); // this one goes to startup folder
 
-const Ticket = sequelize.define("ticket", {
+const Ticket =  {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -43,7 +38,7 @@ const Ticket = sequelize.define("ticket", {
         type: Sequelize.INTEGER,
         allowNull: false
     }
-});
+};
     function validateTicket(ticket) {
         const schema = {
             origin: joi.string().min(2).max(3).required(),
@@ -56,14 +51,5 @@ const Ticket = sequelize.define("ticket", {
         }
         return joi.validate(ticket, schema);
     }
-    /*
-    sequelize.sync().then(result => {
-        console.log("Connected to db and sync`d");
-    })
-    .catch(err => {
-        console.log("Something failed during DB connection" + err);
-    });
-
-*/
     module.exports = Ticket;
-    module.exprots = validateTicket;
+    module.exports = validateTicket;
