@@ -7,7 +7,7 @@ require('./startup/router')(app);
 
 
 app.listen(3000, () => {
-    console.log("rabotem.");
+    console.log("rabotaem.");
 });
 
 /*

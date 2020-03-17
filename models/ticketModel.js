@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER}`, `${process.env.DB_PASSWORD}`, {
     dialect: "postgres",
     host: "127.0.0.1"
-});
+}); // this one goes to startup folder
 
 const Ticket = sequelize.define("ticket", {
     id: {
