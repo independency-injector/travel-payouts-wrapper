@@ -1,4 +1,5 @@
 require('dotenv').config()
+const joi = require('joi');
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
 
@@ -29,7 +30,19 @@ const generateToken = function(user) {
     const token = jwt.sign({id: user.id, isAdmin: user.isAdmin}, process.env.JWT_PRIVATE_KEY);
     return token;
 }
+
+function validateUser(user) {
+    const schema = {
+        name: joi.string().min(2).max(50).required(),
+        email: joi.string().required().email(),
+        password: joi.string().min(5).max(255).required()
+    }
+}
+
+
+
 const User = new Sequelize.define("user", userSchema);
 
 exports.User = User;
 exports.generateToken = generateToken;
+exports.validateUser = validateUser;
