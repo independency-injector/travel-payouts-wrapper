@@ -7,7 +7,7 @@ const generateUrl = function(url, req, token){
     for(v in req){
         result += `${v}=${req[v]}&`;
     }
-    return result+= `token=${token}`;
+    return result += `token=${token}`;
 }
 
 

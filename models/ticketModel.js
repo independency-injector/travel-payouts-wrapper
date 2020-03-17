@@ -1,6 +1,6 @@
-require('dotenv').config();
+require('dotenv').config(); //detele this
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(`${process.env.DB_NAME}`, "postgres", " ", {
+const sequelize = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER}`, `${process.env.DB_PASSWORD}`, {
     dialect: "postgres",
     host: "127.0.0.1"
 });
@@ -49,3 +49,7 @@ const Ticket = sequelize.define("ticket", {
     .catch(err => {
         console.log("Something failed during DB connection" + err);
     });
+
+    const addTicket = async(ticket) => {
+        
+    }
