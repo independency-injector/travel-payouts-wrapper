@@ -3,7 +3,7 @@ const joi = require('joi');
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
 
-const userSchema = {
+const User = {
     id:{
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -23,7 +23,10 @@ const userSchema = {
         required: true,
         
     },
-    isAdmin: Sequelize.BOOLEAN
+    isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+    }
 }
 
 const generateToken = function(user) {
@@ -35,11 +38,13 @@ function validateUser(user) {
     const schema = {
         name: joi.string().min(2).max(50).required(),
         email: joi.string().required().email(),
-        password: joi.string().min(5).max(255).required()
+        password: joi.string().min(5).max(255).required(),
+        isAdmin: joi.boolean()
     }
+    return joi.validate(user, schema);
 }
 
 
-module.exports = User;
-module.exports = generateToken;
-module.exports = validateUser;
+exports.User = User;
+exports.generateToken = generateToken;
+exports.validate = validateUser;      

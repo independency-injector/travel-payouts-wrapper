@@ -11,4 +11,11 @@ try {
  console.log('Connected to DB!');
 } catch(err){
     console.log('An error occured while connecting to DB:' + err);
-}}
+}
+try{
+    sequelize.define('user', User.User);
+    console.log('Models sync`d!');
+} catch(err){
+    console.log('An error occured while connecting to DB:' + err);
+}
+}
