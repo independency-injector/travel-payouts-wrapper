@@ -3,6 +3,7 @@ const joi = require('joi');
 const Sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
 
+
 const User = {
     id:{
         type: Sequelize.INTEGER,
@@ -44,6 +45,13 @@ function validateUser(user) {
     return joi.validate(user, schema);
 }
 
+/* try{
+    sequelize.sync();
+    console.log('Models sync`d!');
+} catch(err){
+    console.log('An error occured while sync`ing models:' + err);
+}
+ */
 
 exports.User = User;
 exports.generateToken = generateToken;
