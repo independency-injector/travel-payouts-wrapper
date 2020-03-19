@@ -1,58 +1,43 @@
-require('dotenv').config()
-const joi = require('joi');
-const Sequelize = require('sequelize');
-const jwt = require('jsonwebtoken');
+const { throwError, to } = require('../util/requestHelper');
+const bcryptjs = require('bcryptjs');
 
 
-const User = {
-    id:{
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type: Sequelize.STRING,
-        required: true
-    },
-    email: {
-        type: Sequelize.STRING,
-        required: true,
-        unique: true,   
-    },
-    password: {
-        type: Sequelize.STRING,
-        required: true,
-        
-    },
-    isAdmin: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-    }
-}
+module.exports = (sequelize, DataTypes) => {
+    let Model = sequelize.define('user', {
+      username: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: { msg: 'Invalid email' }
+        }
+      },
+      password: DataTypes.STRING,
+      refresh_token: DataTypes.STRING
+    });
+    Model.beforeSave(async user => {
+        if(user.changed('password')){
+            let salt, hash, err;
+            [err, salt] = await to(bcryptjs.genSalt(10));
+            if(err) throwError(err.message, true);
+            [err, hash] = await to(bcryptjs.hash(user.password, salt));
+            if(err) throwError(err.message, true);
+            user.password = hash;
+        }
+    });
 
-const generateToken = function(user) {
-    const token = jwt.sign({id: user.id, isAdmin: user.isAdmin}, process.env.JWT_PRIVATE_KEY);
-    return token;
-}
-
-function validateUser(user) {
-    const schema = {
-        name: joi.string().min(2).max(50).required(),
-        email: joi.string().required().email(),
-        password: joi.string().min(5).max(255).required(),
-        isAdmin: joi.boolean()
-    }
-    return joi.validate(user, schema);
-}
-
-/* try{
-    sequelize.sync();
-    console.log('Models sync`d!');
-} catch(err){
-    console.log('An error occured while sync`ing models:' + err);
-}
- */
-
-exports.User = User;
-exports.generateToken = generateToken;
-exports.validate = validateUser;      
+    Model.prototype.comparePassword = async function (pw) {
+        let err, pass;
+        if(!this.password) throwError('password not set');
+    
+        [err, pass] = await to(bcryptjs.compare(pw, this.password));
+        if(err) throwError(err);
+    
+        if(!pass) throwError('invalid password');
+    
+        return this;
+      };
+      
+      return Model;
+}  

@@ -1,28 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const UserController = require('../controllers/userConroller');
 
-router.post('/', (req, res) => {
-    res.json({
-        message: "add a user"
-    })
-});
-
-router.get('/', (req, res) => {
-    res.json({
-        message: "get a user by request body"
-    })
-})
-
-router.get('/:id', (req, res) => {
-    res.json({
-        message: `get a user with ${req.params.id} id`
-    })
-})
-
-router.delete('/:id', (req, res) => {
-    res.json({
-        message: `delete a user with ${req.params.id} id`
-    })
-})
-
+router.get('/register', UserController.create);
+router.get('/login', UserController.login);
+router.post('/logout', UserController.logout);
 module.exports = router;
