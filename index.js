@@ -9,3 +9,9 @@ app.listen(3000, () => {
     console.log("rabotaem.");
 });
 
+
+/*
+TODO:
+[X] - pizda, poplava, peredelat` zanovo, bo vmyrayu
+
+*/
