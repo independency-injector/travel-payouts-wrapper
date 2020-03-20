@@ -1,6 +1,7 @@
 const { throwError, to } = require('../util/requestHelper');
 const bcryptjs = require('bcryptjs');
 
+const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     let Model = sequelize.define('user', {
@@ -41,3 +42,4 @@ module.exports = (sequelize, DataTypes) => {
       
       return Model;
 }  
+
