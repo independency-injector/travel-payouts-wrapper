@@ -1,13 +1,12 @@
 const express = require('express');
-const asyncMiddleware = require('../middlewares/asyncMiddleware');
 const controller = require('../controllers/appController');
 const router = express.Router();
 
-router.get('/', asyncMiddleware(controller.backslash));
-router.get('/cheap', asyncMiddleware(controller.cheap));
-router.get('/calendar', asyncMiddleware(controller.calendar));
-router.get('/airlines', asyncMiddleware(controller.allAirlines));
-router.get('/cities', asyncMiddleware(controller.allCities));
-router.get('/countries', asyncMiddleware(controller.allCountries));
+router.get('/', controller.backslash);
+router.get('/cheap', controller.cheap);
+router.get('/calendar', controller.calendar);
+router.get('/airlines', controller.allAirlines);
+router.get('/cities', controller.allCities);
+router.get('/countries', controller.allCountries);
 
 module.exports = router;

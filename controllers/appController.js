@@ -17,8 +17,8 @@ const backslash = (req, res) => {
     });
 }
 
-const cheap = async (req, res) => {
-    await request(generateUrl(process.env.V1_PRICES_URL, req.query, process.env.TOKEN), (error, response, body) => {
+const cheap = (req, res) => {
+     request(generateUrl(process.env.V1_PRICES_URL, req.query, process.env.TOKEN), (error, response, body) => {
         if(error){
             res.json({
                 message: error
@@ -29,8 +29,8 @@ const cheap = async (req, res) => {
     });
 }
 
-const calendar = async(req, res) => {
-   await request(generateUrl(process.env.V1_CALENDAR_URL, req.query, process.env.TOKEN), (error, response, body) => {
+const calendar = (req, res) => {
+     request(generateUrl(process.env.V1_CALENDAR_URL, req.query, process.env.TOKEN), (error, response, body) => {
         if(error){
             res.json({
                 message: error
@@ -41,8 +41,8 @@ const calendar = async(req, res) => {
    })
 }
 
-const allAirlines = async(req, res) => {
-    await request(`${process.env.AIRLINES_URL}`, (error, response, body) => {
+const allAirlines = (req, res) => {
+     request(`${process.env.AIRLINES_URL}`, (error, response, body) => {
         if(error){
             res.json({
                 message: error
@@ -52,8 +52,8 @@ const allAirlines = async(req, res) => {
         res.json(data);
     });
 }
-const allCities = async(req, res) => {
-    await request(`${process.env.CITIES_URL}`, (error, response, body) => {
+const allCities = (req, res) => {
+     request(`${process.env.CITIES_URL}`, (error, response, body) => {
         if(error){
             res.json({
                 message: error
@@ -64,8 +64,8 @@ const allCities = async(req, res) => {
     });
 }
 
-const allCountries = async(req, res) => {
-    await request(`${process.env.COUNTRIES_URL}`, (error, response, body) => {
+const allCountries = (req, res) => {
+     request(`${process.env.COUNTRIES_URL}`, (error, response, body) => {
         if(error){
             res.json({
                 message: error
