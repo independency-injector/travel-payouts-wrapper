@@ -4,8 +4,8 @@ const request = require('request');
 const generateUrl = function(url, req, token){
     
     let result = `${url}?`;
-    for(v in req){
-        result += `${v}=${req[v]}&`;
+    for(entry in req){
+        result += `${entry}=${req[entry]}&`;
     }
     return result += `token=${token}`;
 }
