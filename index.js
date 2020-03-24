@@ -5,7 +5,7 @@ require('./startup/logging')();
 require('./startup/router')(app);
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 1337, () => {
     console.log(`Server started on port ${process.env.PORT || 3000}`);
 });
 
