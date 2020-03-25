@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    Model.prototype.comparePassword = async function (pw) {
+    Model.prototype.validatePassword = async function (pw) {
         let err, pass;
         if(!this.password) throwError('password not set');
     
@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
     
         return this;
       };
+    Model.prototype.comparePasswords = async function(pw) { 
+        let err, pass;
+        if(!this.password) throwError('password not set');
+    }
       
       return Model;
 }  

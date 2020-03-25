@@ -7,7 +7,8 @@ const register = async (req, res) => {
     }
     if(!body.password) { return error(res, "Provide password to register.", 400); };
     
-    let err, user = await to(User.create({username: body.username, email: body.email, password:body.password}));
+    let err, user;
+    [err, user] = await to(User.create({username: body.username, email: body.email, password:body.password}));
     if(err) return error(res,err.message, 400); 
     return success(res, {message: 'Successfully created new user', user: user}, 201);
 };
@@ -18,11 +19,16 @@ const getUser = async (req, res) => {
     // later on this will implement login logic as we dont need to get users directly
     const { body } = req;
     if(!body.username){ return error(res, 'Provide username.', 400); };
-    let err, user = await to(User.findOne({ where: { username: body.username} }));
-    if(err) { return error(res, err.message)} else {
+    let err, user;
+    [err, user] = await to(User.findOne({ where: { username: body.username} }));
+    if(err) { return error(res, err.message) };
     return success(res, { user: user }, 201);
-    }
 };
+
+const updatePassword = async (req, res) => {
+    const { body } = req;
+    if(!body.username || !body.oldPassword) { return error(res, 'Provide username and password', 400)};
+}
 
 module.exports = {
     register,
