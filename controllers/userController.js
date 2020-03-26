@@ -20,33 +20,37 @@ const getUser = async (req, res) => {
     if(!body.username){ return error(res, 'Provide username.', 400); };
     const [err, user] = await to(User.findOne({ where: { username: body.username} }));
     if(err) { return error(res, err.message) };
-    console.log(user);
+        if(user == null) { return error(res, 'No such user in db', 404); };
     return success(res, { user: user }, 201);
 };
 
 const updatePassword = async (req, res) => {
     const { body } = req;
     if(!body.email || !body.oldPassword) { return error(res, 'Provide email and password', 400)};
-    const [err, user] = await to(User.findOne({ where: { email: body.email } }));
-    if(err) { return error(res, 'No such user found.', 404)};
-    [err, user] = await to(User.validatePassword(user.password));
-    if(err) return error(res, err.message);
+    let [err, user] = await to(User.findOne( { where: {email: body.email} }));
+    if(err) { return error(res, err.message, 500)};
+        if(user == null) return error(res, 'No such user found.', 404);
+    user.validatePassword(req.oldPassword);
+    [err, user] = await to(User.update({ password: body.newPassword}, { where: {email: body.email } }));
+    if(err) { return error(res, err.message, 500) };
+        return success(res, { message: 'Successfully updated a users password'}, 200);
 }
 
 const deleteUser = async (req, res) => {
     const { body } = req;
     if(!body.email) { return error(res, 'Provide email of the user you want to delete', 400); };
-    const [err, user] = await to(User.findOne({ where: { email: body.email} } ));
+    let [err, user] = await to(User.findOne({ where: { email: body.email} } ));
     if(err) { return error(res, err.message) };
-    if(user == null) return res.status(404).json({ message: 'No such user in db.'});
+    if(user == null) return error(res, 'No such user in db.', 404);
     [err, user] = await to(User.destroy( { where: { email: user.email } }));
     if(err) return error(res, err.message, 500);
-    return success(res, { message: 'Successfully deleted user:', user: user}, 200);
+    return success(res, { message: 'Successfully deleted user:', user: body.email}, 200);
 
 }
 
 module.exports = {
     register,
     getUser,
-    deleteUser
+    deleteUser,
+    updatePassword
 };

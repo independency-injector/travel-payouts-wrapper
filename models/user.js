@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
+    //beforeUpdate hook needed
+
     Model.prototype.validatePassword = async function (pw) {
         let err, pass;
         if(!this.password) throwError('password not set');
