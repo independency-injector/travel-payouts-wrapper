@@ -31,7 +31,6 @@ const updatePassword = async (req, res) => {
     if(err) { return error(res, 'No such user found.', 404)};
     [err, user] = await to(User.validatePassword(user.password));
     if(err) return error(res, err.message);
-    console.log
 }
 
 const deleteUser = async (req, res) => {
@@ -39,9 +38,15 @@ const deleteUser = async (req, res) => {
     if(!body.email) { return error(res, 'Provide email of the user you want to delete', 400); };
     const [err, user] = await to(User.findOne({ where: { email: body.email} } ));
     if(err) { return error(res, err.message) };
+    if(user == null) return res.status(404).json({ message: 'No such user in db.'});
+    [err, user] = await to(User.destroy( { where: { email: user.email } }));
+    if(err) return error(res, err.message, 500);
+    return success(res, { message: 'Successfully deleted user:', user: user}, 200);
+
 }
 
 module.exports = {
     register,
     getUser,
+    deleteUser
 };
