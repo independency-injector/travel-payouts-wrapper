@@ -31,7 +31,7 @@ const updatePassword = async (req, res) => {
     if(err) { return error(res, err.message, 500)};
         if(user == null) return error(res, 'No such user found.', 404);
     user.validatePassword(req.oldPassword);
-    [err, user] = await to(User.update({ password: body.newPassword}, { where: {email: body.email } }));
+    [err, user] = await to(User.update({ password: body.newPassword}, { where: { email: body.email } }));
     if(err) { return error(res, err.message, 500) };
         return success(res, { message: 'Successfully updated a users password'}, 200);
 }
