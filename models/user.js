@@ -28,20 +28,41 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    //beforeUpdate hook needed
+    Model.beforeBulkUpdate(async user => {
+      if(user.changed('password')){
+        let [err, salt] = await to(bcryptjs.getSalt(10));
+        if(err) throwError(err.message, true);
+        [err, hash] = await to(bcryptjs.hash(user.password, salt));
+        if(err) throwError(err.message, true);
+        user.password = hash;
+      };
+    });
+    
 
+/* 
     Model.prototype.validatePassword = async function (pw) {
-        let err, pass;
         if(!this.password) throwError('password not set');
     
-        [err, pass] = await to(bcryptjs.compare(pw, this.password));
+        let [err, pass] = await to(bcryptjs.compare(pw, this.password));
         if(err) throwError(err);
     
         if(!pass) throwError('invalid password');
     
         return this;
-      };
-      
+      }; */
+    
+    Model.prototype.validatePassword = async function(pw){
+      if(!this.password) throwError('password not set');
+      let [err, pass] = await to(bcryptjs.compare(pw, this.password));
+      if(err) throwError(err);
+
+      if(pass) return true;
+        return false;
+    };
+
+    //idk why the fuck it returns true if passwords are different
+
       return Model;
 }  
+
 
