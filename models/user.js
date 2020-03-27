@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       refresh_token: DataTypes.STRING
     });
+
+    //TODO: method for pass generating  
+
     Model.beforeSave(async user => {
         if(user.changed('password')){
             let salt, hash, err;
@@ -37,19 +40,6 @@ module.exports = (sequelize, DataTypes) => {
         user.password = hash;
       };
     });
-    
-
-/* 
-    Model.prototype.validatePassword = async function (pw) {
-        if(!this.password) throwError('password not set');
-    
-        let [err, pass] = await to(bcryptjs.compare(pw, this.password));
-        if(err) throwError(err);
-    
-        if(!pass) throwError('invalid password');
-    
-        return this;
-      }; */
     
     Model.prototype.validatePassword = async function(pw){
       if(!this.password) throwError('password not set');
