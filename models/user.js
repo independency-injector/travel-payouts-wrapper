@@ -44,10 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     Model.prototype.validatePassword = async function(pw){
       if(!this.password) throwError('password not set');
       let [err, pass] = await to(bcryptjs.compare(pw, this.password));
-      if(err) throwError(err);
-
-      if(pass) return true;
-        return false;
+        if(!pass) return false;
+      return true;
     };
 
     //idk why the fuck it returns true if passwords are different
