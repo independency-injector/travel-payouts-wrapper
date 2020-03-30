@@ -9,6 +9,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 });
 
 const User = require('../models/user')(sequelize, Sequelize);
+const Ticket = require('../models/ticket')(sequelize, Sequelize);
 
 module.exports = {
     Sequelize,

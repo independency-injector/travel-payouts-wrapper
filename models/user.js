@@ -4,42 +4,53 @@ const bcryptjs = require('bcryptjs');
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  let Model = sequelize.define('user', {
-    username: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: { msg: 'Invalid email' }
-      }
-    },
-    password: DataTypes.STRING,
-    refresh_token: DataTypes.STRING
-  });
-  Model.beforeSave(async user => {
-    if (user.changed('password')) {
-      let salt, hash, err;
-      [err, salt] = await to(bcryptjs.genSalt(10));
-      if (err) throwError(err.message, true);
-      [err, hash] = await to(bcryptjs.hash(user.password, salt));
-      if (err) throwError(err.message, true);
-      user.password = hash;
-    }
-  });
+    let Model = sequelize.define('user', {
+      username: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: { msg: 'Invalid email' }
+        }
+      },
+      password: DataTypes.STRING,
+      refresh_token: DataTypes.STRING
+    });
 
-  Model.prototype.comparePassword = async function (pw) {
-    let err, pass;
-    if (!this.password) throwError('password not set');
+    //TODO: method for pass generating  
 
-    [err, pass] = await to(bcryptjs.compare(pw, this.password));
-    if (err) throwError(err);
+    Model.beforeSave(async user => {
+        if(user.changed('password')){
+            let salt, hash, err;
+            [err, salt] = await to(bcryptjs.genSalt(10));
+            if(err) throwError(err.message, true);
+            [err, hash] = await to(bcryptjs.hash(user.password, salt));
+            if(err) throwError(err.message, true);
+            user.password = hash;
+        }
+    });
 
-    if (!pass) throwError('invalid password');
+    Model.beforeBulkUpdate(async user => {
+      if(user.changed('password')){
+        let [err, salt] = await to(bcryptjs.getSalt(10));
+        if(err) throwError(err.message, true);
+        [err, hash] = await to(bcryptjs.hash(user.password, salt));
+        if(err) throwError(err.message, true);
+        user.password = hash;
+      };
+    });
+    
+    Model.prototype.validatePassword = async function(pw){
+      if(!this.password) throwError('password not set');
+      let [err, pass] = await to(bcryptjs.compare(pw, this.password));
+        if(!pass) return false;
+      return true;
+    };
 
-    return this;
-  };
+    //idk why the fuck it returns true if passwords are different
 
-  return Model;
-}
+      return Model;
+}  
+
 
