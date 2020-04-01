@@ -1,5 +1,6 @@
 const { User } = require('../models/index');
 const { to, error, throwError, success } = require('../util/requestHelper');
+
 const register = async (req, res) => {
     const { body } = req;
     if (!body.username || !body.email) {
