@@ -1,17 +1,6 @@
 const { User } = require('../models/index');
 const { to, error, throwError, success } = require('../util/requestHelper');
-
-const register = async (req, res) => {
-    const { body } = req;
-    if (!body.username || !body.email) {
-        return error(res, 'Provide valid username and email.', 400);
-    }
-    if (!body.password) { return error(res, "Provide password to register.", 400); };
-
-    const [err, user] = await to(User.create({ username: body.username, email: body.email, password: body.password }));
-    if (err) return error(res, err.message, 400);
-    return success(res, { message: 'Successfully created new user', user: user }, 201);
-};
+const auth = require('../services/authService');
 
 
 const getUser = async (req, res) => {
@@ -22,6 +11,32 @@ const getUser = async (req, res) => {
     if (err) { return error(res, err.message) };
     if (user == null) { return error(res, 'No such user in db', 404); };
     return success(res, { user: user }, 201);
+};
+ 
+const register = async(req, res) => {
+    const { body } = req;
+    if(!body.username || !body.email){
+        return error(res, 'Enter username and email to register.', 400);
+    }
+    if(!body.password)  return error(res, 'Enter password to register.', 400);
+    let err, user;
+    [err] = await to(auth.register(body));
+    if(err) return error(res, err.message, 400);
+    [err, user] = await to(auth.login(body));
+    return success(res, { message: 'Successfully registered.', user: user}, 201);
+};
+
+const login = async(req, res) => {
+    const { body } = req;
+    let [err, user] = await to(auth.login(body));
+    console.log()
+    if(err) { return error(res, err.message, 400) };
+    return success(res, user);
+    };
+
+const logout = async(req, res) => {
+    req.logout();
+    return success(res, {message: 'Successfully logged out.'}, 200);
 };
 
 const updatePassword = async (req, res) => {
@@ -52,5 +67,7 @@ module.exports = {
     register,
     getUser,
     deleteUser,
-    updatePassword
+    updatePassword,
+    login, 
+    logout
 };
