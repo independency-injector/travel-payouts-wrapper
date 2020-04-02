@@ -25,8 +25,7 @@ module.exports.to = async promise => {
   };
   
 
-  module.exports.throwError = (err_message, log) => {
-    if (log) logger.error(err_message);
+  module.exports.throwError = (err_message) => {
     throw new Error(err_message);
   };
   
