@@ -14,7 +14,6 @@ const register = async (req, res) => {
 };
 
 
-
 const getUser = async (req, res) => {
     // later on this will implement login logic as we dont need to get users directly
     const { body } = req;
