@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       refresh_token: DataTypes.STRING
     });
 
-    //TODO: method for pass generating  
 
     Model.beforeSave(async user => {
         if(user.changed('password')){
