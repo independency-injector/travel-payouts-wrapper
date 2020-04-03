@@ -20,6 +20,11 @@ const login = async(req, res) => {
     return success(res, user);
 }
 
+const logout = async(req, res) => {
+    req.logOut();
+    return success(res, {message: 'Successfully logged out.'}, 200);
+};
+
 const updatePassword = async (req, res) => {
     const { body } = req;
     if (!body.email || !body.oldPassword) { return error(res, 'Provide email and password', 400) };
@@ -47,5 +52,6 @@ module.exports = {
     updatePassword,
     register,
     deleteUser,
-    login
+    login,
+    logout
 };

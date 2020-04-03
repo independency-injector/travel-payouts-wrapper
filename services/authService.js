@@ -7,10 +7,10 @@ const jwt = require('jsonwebtoken');
 const generateTokens = ({id, email}) => {
     const access_token = jwt.sign({user_id: id}, JWT_ENCRYPTION, {expiresIn: 3600});
     const refresh_token = jwt.sign({user_id: id, user_email: email}, JWT_ENCRYPTION, { expiresIn: JWT_EXPIRATION});
-   /*  User.findOne( { where: { email: email} }).then((user) => {
+     User.findOne( { where: { email: email} }).then((user) => {
         user.refresh_token = refresh_token;
         user.save();
-    }); */
+    }); 
     return {
         access_token,
         refresh_token
