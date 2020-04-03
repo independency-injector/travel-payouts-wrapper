@@ -1,8 +1,10 @@
 const express = require('express');
 const controller = require('../controllers/appController');
 const router = express.Router();
+const passport = require('passport');
+require('../middlewares/passport')(passport);
 
-router.get('/', controller.backslash);
+router.get('/', passport.authenticate('jwt', {session: false} ), controller.backslash);
 router.get('/cheap', controller.cheap);
 router.get('/calendar', controller.calendar);
 router.get('/airlines', controller.allAirlines);

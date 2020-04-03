@@ -1,12 +1,12 @@
 const { ExtractJwt, Strategy } = require('passport-jwt');
 const User = require('../models/index');
-const { JWT_Encryption } = process.env;
+const { JWT_ENCRYPTION } = process.env;
 const { to } = require('../util/requestHelper');
 
 module.exports = function(passport) {
     let opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-    opts.secretKey = JWT_Encryption;
+    opts.secretOrKey = JWT_ENCRYPTION;
     passport.use(new Strategy(opts, async function (jwt_payload, done) {
         let err, user;
         [err, user] = await to(User.findOne({where: {id: jwt_payload.user_id} }));

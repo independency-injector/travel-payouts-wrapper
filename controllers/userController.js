@@ -13,6 +13,13 @@ const register = async (req, res) => {
     return success(res, {message: 'Successfully created new user', user: user}, 201);
 };
 
+const login = async(req, res) => {
+    const { body } = req;
+    let [err, user] = await to(auth.login(body));
+    if(err) return error(res, err.message, 400);
+    return success(res, user);
+}
+
 const updatePassword = async (req, res) => {
     const { body } = req;
     if (!body.email || !body.oldPassword) { return error(res, 'Provide email and password', 400) };
@@ -25,7 +32,20 @@ const updatePassword = async (req, res) => {
     return success(res, { message: 'Successfully updated a users password' }, 200);
 }
 
+const deleteUser = async (req, res) => {
+    const { body } = req;
+    if (!body.email) { return error(res, 'Provide email of the user you want to delete', 400); };
+    let [err, user] = await to(User.findOne({ where: { email: body.email } }));
+    if (err) { return error(res, err.message) };
+    if (user == null) return error(res, 'No such user in db.', 404);
+    [err, user] = await to(User.destroy({ where: { email: user.email } }));
+    if (err) return error(res, err.message, 500);
+    return success(res, { message: 'Successfully deleted user:', user: body.email }, 200);  
+}
+
 module.exports = {
     updatePassword,
     register,
+    deleteUser,
+    login
 };
