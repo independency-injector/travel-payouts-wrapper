@@ -1,13 +1,34 @@
 
 module.exports = (sequelize, DataTypes) => {
     let Model = sequelize.define('ticket', {
-        origin_city: DataTypes.STRING,
-        destination_city: DataTypes.STRING,
-        depart_date: DataTypes.DATE,
-        return_date: DataTypes.DATE,
-        price: DataTypes.FLOAT,
-        airline_id: DataTypes.INTEGER,
-        flight_number: DataTypes.INTEGER
+        origin_city: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        destination_city: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        depart_date: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        return_date: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        price: {
+            type: DataTypes.FLOAT,
+            allowNull: false
+        },
+        airline_id: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        flight_number: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
     });
     
     return Model;
