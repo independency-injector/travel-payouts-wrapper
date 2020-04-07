@@ -10,7 +10,7 @@ router.post('/updatePassword', passport.authenticate('jwt', {session: false}), u
 router.delete('/delete', passport.authenticate('jwt', {session: false}), userController.deleteUser);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-router.post('/addTicket', ticketController.addTicket);
-router.post('/getTickets', ticketController.getTickets);
-router.delete('/deleteTicket', ticketController.deleteTicket);
+router.post('/addTicket', passport.authenticate('jwt', {session: false}), ticketController.addTicket);
+router.get('/getTickets', ticketController.getTickets);
+router.delete('/deleteTicket', passport.authenticate('jwt', {session: false}), ticketController.deleteTicket);
 module.exports = router;
