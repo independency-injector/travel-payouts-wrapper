@@ -9,6 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         airline_id: DataTypes.INTEGER,
         flight_number: DataTypes.INTEGER
     });
-
+    
     return Model;
 }

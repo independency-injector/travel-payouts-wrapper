@@ -47,13 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       return this;
     };
 
-
     Model.assosiate = function(model) {
       Model.hasMany(model, {
-        foreignKey: 'ticket_id',
-        as: 'users_tickets'
+        onDelete: 'cascade'
       });
-    };
+    }
 
       return Model;
 }  

@@ -5,7 +5,7 @@ const auth = require('../services/authService');
 const register = async (req, res) => {
     const { body } = req;
     if(!body.username || !body.email || !body.password) return error(res, 'Invalid credentials', 400);
-    if(!User.findOne( { where: { email: body.email} })) return error(res, 'User with such email is already registered', 400);  
+    if(User.findOne( { where: { email: body.email} }) !== null) return error(res, 'User with such email is already registered', 400);  
     let err, user;
     [err, user] = await to(auth.register(body));
     if(err) return error(res, err.message, 400);
@@ -13,11 +13,12 @@ const register = async (req, res) => {
     return success(res, {message: 'Successfully created new user', user: user}, 201);
 };
 
+
 const login = async(req, res) => {
     const { body } = req;
     let [err, user] = await to(auth.login(body));
     if(err) return error(res, err.message, 400);
-    return success(res, user);
+    return success(res, user, 200);
 }
 
 const logout = async(req, res) => {
