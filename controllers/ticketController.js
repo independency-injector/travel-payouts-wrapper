@@ -13,7 +13,6 @@ const addTicket = async (req, res) => {
 
 const getTickets = async(req, res) => {
     const { body } = req;
-
     let [err, user] = await to(User.findOne( { where: {email: body.email } } ));
     if(err) return error(res, 'Invalid credentials:' + err, 400);
     if(user == null) return error(res, 'No such user', 404); 
@@ -33,6 +32,8 @@ const deleteTicket = async(req, res) => {
     if(err) return error(res, 'An error occured', 500);
     return success(res, {message: 'Successfully deleted ticket with id: ' + body.id}, 200);
 }
+
+
 
 module.exports = {
     addTicket,
