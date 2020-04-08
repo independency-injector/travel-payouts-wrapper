@@ -1,8 +1,10 @@
 const { User, Ticket } = require('../models/index');
 const { to, error, throwErorr, success } = require('../util/requestHelper');
+const validator = require('../util/validator');
 
 const addTicket = async (req, res) => {
     const { body } = req;
+    if(!validator.validateTicket(body)) return error(res, 'Invalid ticket format. Check the documentation', 400);
     let [err, user] = await to(User.findOne( {where: {email: body.email} } ));
     if(err) return error(res, 'Invalid credentials:' + err, 400);
     if(user == null) return error(res, 'No such user', 404);
