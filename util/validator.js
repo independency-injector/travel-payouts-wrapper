@@ -26,7 +26,7 @@ const ticketSchema = Joi.object({
 const regSchema = Joi.object({
     username: Joi.string()
     .required()
-    .min(5),
+    .min(3),
     email: Joi.string()
     .required()
     .email({minDomainAtoms: 2}),
