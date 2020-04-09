@@ -12,7 +12,7 @@ const envCheck = (req, res, next) => {
         next();
 }
 
-const errorMiddleware = (error, req, res, next) => {
+const errorMiddleware = function (error, req, res, next)  {
     const statusCode = res.statusCode === 200 ? 500: res.statusCode;
     if(process.env.NODE_ENV == 'dev'){
     return res.status(statusCode).json({
@@ -23,7 +23,8 @@ const errorMiddleware = (error, req, res, next) => {
     return res.status(statusCode).json({
         message: error.message
     });
-}
+};
+
 
 module.exports = {
     errorMiddleware,

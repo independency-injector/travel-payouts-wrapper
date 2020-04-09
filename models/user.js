@@ -47,7 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       return this;
     };
 
-    //idk why the fuck it returns true if passwords are different
+    Model.assosiate = function(model) {
+      Model.hasMany(model, {
+        onDelete: 'cascade'
+      });
+    }
 
       return Model;
 }  

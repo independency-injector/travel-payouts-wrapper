@@ -1,23 +1,24 @@
 const { User } = require('../models/index');
-const { to, error, throwError, success } = require('../util/requestHelper');
+const { to, error, success } = require('../util/requestHelper');
 const auth = require('../services/authService');
+const validator = require('../util/validator');
 
 const register = async (req, res) => {
     const { body } = req;
-    if(!body.username || !body.email || !body.password) return error(res, 'Invalid credentials', 400);
-    if(User.findOne( { where: { email: body.email} }) !== null) return error(res, 'User with such email is already registered', 400);  
-    let err, user;
-    [err, user] = await to(auth.register(body));
+    if(!validator.validateReg(body)) return error(res, 'Invalid info, check the documentation for details', 400);
+    if(await User.findOne( { where: { email: body.email} }) !== null) return error(res, 'User with such email is already registered', 400); 
+    let [err, user] = await to(auth.register(body));
     if(err) return error(res, err.message, 400);
     [err, user] = await to(auth.login(body));
     return success(res, {message: 'Successfully created new user', user: user}, 201);
 };
 
+
 const login = async(req, res) => {
-    const { body } = req;
+    const { body } = req;   
     let [err, user] = await to(auth.login(body));
-    if(err) return error(res, err.message, 400);
-    return success(res, user);
+    if(err !== null) return error(res, err.message, 400);
+    return success(res, user, 200);
 }
 
 const logout = async(req, res) => {

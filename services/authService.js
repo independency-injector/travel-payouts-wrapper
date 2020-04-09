@@ -33,7 +33,7 @@ const register = async userInfo => {
 };
 
 const login = async userInfo => {
-    if(!userInfo.email || !userInfo.password) throwError('Invalid credentials');
+    if(!userInfo.email || !userInfo.password) throwError('Invalid data');
     let [err, user] = await to(User.findOne( { where: { email: userInfo.email} } ));
     if(err) throwError(err.message);
     if(user == null) throwError('Not registered!');

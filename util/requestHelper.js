@@ -3,7 +3,7 @@ const to = require('await-to-js').default;
 module.exports.to = async promise => {
     let err, res;
     [err, res] = await to(promise);
-    if(err) return err;
+    if(err) return [err, null];
     return [null, res];
   };
   
