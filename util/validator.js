@@ -23,12 +23,32 @@ const ticketSchema = Joi.object({
     .required()
 });
 
+const regSchema = Joi.object({
+    username: Joi.string()
+    .required()
+    .min(5),
+    email: Joi.string()
+    .required()
+    .email({minDomainAtoms: 2}),
+    password: Joi.string()
+    .required()
+    .min(5)
+});
+
 const validateTicket = (ticket) => {
-    const { error, value } = ticketSchema.validate(ticket);
+    const { error } = ticketSchema.validate(ticket);
+    if(error) return false;
+    return true;
+};
+
+
+ const validateReg = (reg) => {
+    const { error } = regSchema.validate(reg);
     if(error) return false;
     return true;
 };
 
 module.exports = {
-    validateTicket
+    validateTicket,
+    validateReg
 }

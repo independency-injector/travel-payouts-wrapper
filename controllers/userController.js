@@ -1,10 +1,11 @@
 const { User } = require('../models/index');
 const { to, error, success } = require('../util/requestHelper');
 const auth = require('../services/authService');
+const validator = require('../util/validator');
 
 const register = async (req, res) => {
     const { body } = req;
-    if(!body.username || !body.email || !body.password) return error(res, 'Invalid credentials', 400);
+    if(!validator.validateReg) return error(res, 'Invalid credentials', 400);
     if(await User.findOne( { where: { email: body.email} }) !== null) return error(res, 'User with such email is already registered', 400); 
     let [err, user] = await to(auth.register(body));
     if(err) return error(res, err.message, 400);
