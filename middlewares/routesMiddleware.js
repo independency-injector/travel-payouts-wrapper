@@ -4,15 +4,6 @@ const notFound = (req, res, next) => {
     next(error);
 }
 
-const errorMiddleware = (error, req, res, next) => {
-    const statusCode = res.statusCode === 200 ? 500: res.statusCode;
-    res.status(statusCode);
-    res.json({
-        message: error.message,
-        stack: error.stack
-    });
-}
-
 const envCheck = (req, res, next) => {
     if(!(process.env.TOKEN && process.env.V1_PRICES_URL && process.env.V1_CALENDAR_URL && process.env.AIRLINES_URL && process.env.CITIES_URL && process.env.COUNTRIES_URL))
    res.json({
@@ -21,6 +12,18 @@ const envCheck = (req, res, next) => {
         next();
 }
 
+const errorMiddleware = (error, req, res, next) => {
+    const statusCode = res.statusCode === 200 ? 500: res.statusCode;
+    if(process.env.NODE_ENV == 'dev'){
+    return res.status(statusCode).json({
+        message: error.message,
+        stack: error.stack
+    });
+    };
+    return res.status(statusCode).json({
+        message: error.message
+    });
+}
 
 module.exports = {
     errorMiddleware,
