@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/userController');
+const userController = require('../controllers/userController');
+const ticketController = require('../controllers/ticketController');
+const passport = require('passport');
+require('../middlewares/passport')(passport);
 
-router.post('/register', controller.register);
-router.post('/login', controller.login);
-router.post('/logout', controller.login);
+router.post('/register', userController.register);
+router.post('/updatePassword', passport.authenticate('jwt', {session: false}), userController.updatePassword);
+router.delete('/delete', passport.authenticate('jwt', {session: false}), userController.deleteUser);
+router.post('/login', userController.login);
+router.post('/logout', userController.logout);
+router.post('/addTicket', passport.authenticate('jwt', {session: false}), ticketController.addTicket);
+router.get('/getTickets', ticketController.getTickets);
+router.delete('/deleteTicket', passport.authenticate('jwt', {session: false}), ticketController.deleteTicket);
 module.exports = router;
