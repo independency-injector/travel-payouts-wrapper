@@ -11,6 +11,6 @@ router.delete('/delete', passport.authenticate('jwt', {session: false}), userCon
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/addTicket', passport.authenticate('jwt', {session: false}), ticketController.addTicket);
-router.get('/getTickets', ticketController.getTickets);
-router.delete('/deleteTicket', passport.authenticate('jwt', {session: false}), ticketController.deleteTicket);
+router.post('/getTickets', passport.authenticate('jwt', {session: false}), ticketController.getTickets);
+router.delete('/deleteTicket/:id', passport.authenticate('jwt', {session: false}), ticketController.deleteTicket);
 module.exports = router;

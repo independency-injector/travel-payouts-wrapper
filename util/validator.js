@@ -1,9 +1,6 @@
 const Joi = require('joi');
 
 const ticketSchema = Joi.object({
-    email: Joi.string()
-    .required()
-    .email(),
     origin_city: Joi.string()
     .required()
     .min(3),
