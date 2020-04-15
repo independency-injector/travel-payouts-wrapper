@@ -9,9 +9,9 @@ const addTicket = async (req, res) => {
     let [err, user] = await to(User.findOne( {where: {id: auth.id} } ));
     if(err) return error(res, 'Invalid credentials:' + err, 400);
     if(user == null) return error(res, 'No such user', 404);
-    [err, tickets] = await to(user.createTicket(body));
+    [err, ticket] = await to(user.createTicket(body));
     if(err) return error(res, 'Invalid data:' + err, 400);
-    return success(res, {message: `Successfully added new ticket to user ${body.email}:`, tickets: tickets}, 201);  
+    return success(res, {message: `Successfully added new ticket to user ${body.email}:`, ticket: ticket }, 201);  
 };
 
 const getTickets = async(req, res) => {
