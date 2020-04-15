@@ -33,12 +33,11 @@ const register = async userInfo => {
 };
 
 const login = async userInfo => {
-    if(!userInfo.email || !userInfo.password) throwError('Invalid data');
     let [err, user] = await to(User.findOne( { where: { email: userInfo.email} } ));
     if(err) throwError(err.message);
     if(user == null) throwError('Not registered!');
-    [err, user] = await to(user.validatePassword(userInfo.password));
-    if(err) throwError(err.message);
+    const pass = await user.validatePassword(userInfo.password);
+    if(!pass) throwError('Wrong password!');
     const tokens = generateTokens({id: user.id, email: user.email});
     return Object.assign({
         username: user.username,

@@ -42,9 +42,9 @@ module.exports = (sequelize, DataTypes) => {
     
     Model.prototype.validatePassword = async function(pw){
       if(!this.password) throwError('password not set');
-      let [err, pass] = await to(bcryptjs.compare(pw, this.password));
-        if(!pass) return null;
-      return this;
+      let pass = await bcryptjs.compare(pw, this.password);
+      if(!pass) return false;
+      return true;
     };
 
     Model.assosiate = function(model) {
