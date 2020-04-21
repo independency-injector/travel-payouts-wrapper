@@ -7,7 +7,7 @@ require('../middlewares/passport')(passport);
 
 router.post('/register', userController.register);
 router.post('/updatePassword', passport.authenticate('jwt', {session: false}), userController.updatePassword);
-router.delete('/delete', passport.authenticate('jwt', {session: false}), userController.deleteUser);
+router.post('/delete', passport.authenticate('jwt', {session: false}), userController.deleteUser);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/addTicket', passport.authenticate('jwt', {session: false}), ticketController.addTicket);
