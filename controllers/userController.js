@@ -28,12 +28,13 @@ const logout = async(req, res) => {
 
 const updatePassword = async (req, res) => {
     const { body } = req;
-    if (!body.email || !body.oldPassword) { return error(res, 'Provide email and password', 400) };
-    let [err, user] = await to(User.findOne({ where: { email: body.email } }));
+    const auth = req.user;
+    if (!body.newPassword || !body.oldPassword) { return error(res, 'Provide pair of old and new passwords of the user', 400) };
+    let [err, user] = await to(User.findOne({ where: { id: auth.id } }));
     if (err) { return error(res, err.message, 500) };
     if (user == null) return error(res, 'No such user found', 404);
     if(!(await user.validatePassword(body.oldPassword)) ) { return error(res, 'Wrong password!', 401) }; 
-    [err, user] = await to(user.update({ password: body.newPassword }, { where: { email: body.email } }));
+    [err, user] = await to(user.update({ password: body.newPassword }, { where: { id: auth.id } }));
     if (err) { return error(res, err.message, 500) };
     return success(res, { message: 'Successfully updated a users password' }, 200);
 }
