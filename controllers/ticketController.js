@@ -21,7 +21,7 @@ const getTickets = async(req, res) => {
     if(user == null) return error(res, 'No such user', 404); 
     [err, tickets] = await to(user.getTickets());
     if(err) return error(res, 'An error occured:' + error, 500);
-    if(tickets.length == 0) return success(res, { message: 'This user has no tickets' }, 404);
+    if(tickets.length == 0) return success(res, { message: 'This user has no tickets', tickets: null }, 404);
     return success(res, {tickets: tickets}, 200);
 }
 

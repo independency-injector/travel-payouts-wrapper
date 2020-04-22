@@ -39,13 +39,10 @@ const updatePassword = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    const { password } = req.body;
     const auth = req.user;
     let [err, user] = await to(User.findOne( { where: { id: auth.id} } ));
     if(err) return error(res, err.message, 400);
     if(user == null) return error(res, 'No such user found', 404);
-    if(!password) return error(res, 'Provide users password in order to delete a user from database');
-    if(!(await user.validatePassword(password)) ) { return error(res, 'Wrong password!', 401) };
     [err, user] = await to(User.destroy({ where: { id: auth.id } }));
     if (err) return error(res, err.message, 500);
     return success(res, { message: 'Successfully deleted user' }, 200);  
